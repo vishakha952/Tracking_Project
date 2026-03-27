@@ -1,0 +1,105 @@
+# 📄 Technical Report
+
+## Multi-Object Detection and Persistent ID Tracking in Sports Video
+
+---
+
+## 1. Introduction
+
+This project focuses on building a computer vision pipeline capable of detecting and tracking multiple objects (players) in a sports video. The goal is to assign each detected subject a unique and persistent ID across frames, ensuring consistency even under challenging real-world conditions.
+
+---
+
+## 2. Methodology
+
+The solution consists of two main components:
+
+### 2.1 Object Detection
+
+* Model Used: **YOLOv8 (You Only Look Once version 8)**
+* Variant: **yolov8n (nano)**
+* Reason for Selection:
+
+  * Fast inference speed
+  * Lightweight model suitable for real-time processing
+  * Good accuracy for detecting humans in sports videos
+
+YOLOv8 processes each frame of the video and detects objects such as players by generating bounding boxes.
+
+---
+
+### 2.2 Multi-Object Tracking
+
+* Tracker Used: **ByteTrack (integrated with YOLOv8)**
+* Functionality:
+
+  * Assigns unique IDs to detected objects
+  * Maintains ID consistency across frames
+  * Handles occlusion and re-identification
+
+The `persist=True` parameter ensures that object identities are maintained throughout the video.
+
+---
+
+## 3. Pipeline Overview
+
+The overall pipeline is as follows:
+
+1. Input video is loaded using OpenCV
+2. Frames are extracted sequentially
+3. YOLOv8 performs object detection on each frame
+4. ByteTrack assigns and maintains unique IDs
+5. Bounding boxes and IDs are drawn on frames
+6. Frames are saved into an annotated output video
+
+---
+
+## 4. Results
+
+The output video successfully demonstrates:
+
+* Detection of multiple players in the scene
+* Assignment of unique IDs to each player
+* Consistent tracking across frames
+* Visualization using bounding boxes and ID labels
+
+Screenshots and video output confirm that the system performs well under moderate motion and multi-object scenarios.
+
+---
+
+## 5. Challenges Faced
+
+During implementation, several challenges were observed:
+
+* **Occlusion:** Players overlapping caused temporary loss of tracking
+* **Motion Blur:** Fast movements reduced detection accuracy
+* **Similar Appearance:** Players with similar uniforms were difficult to distinguish
+* **Camera Movement:** Panning and zooming affected detection stability
+
+---
+
+## 6. Limitations
+
+* Tracking accuracy may degrade in heavy occlusion scenarios
+* No appearance-based re-identification (ReID) used
+* Performance depends on video quality and resolution
+
+---
+
+## 7. Future Improvements
+
+* Integrate **DeepSORT** for better tracking with appearance features
+* Add **trajectory visualization** for movement analysis
+* Implement **player counting system**
+* Generate **heatmaps** for spatial activity
+* Use larger YOLO models (e.g., yolov8m) for improved accuracy
+
+---
+
+## 8. Conclusion
+
+This project demonstrates an effective approach to multi-object detection and tracking using YOLOv8 and ByteTrack. The system successfully assigns persistent IDs and handles common real-world challenges.
+
+The solution is scalable and can be extended to applications such as sports analytics, surveillance systems, and crowd monitoring.
+
+---
